@@ -55,39 +55,79 @@
 //   );
 // }
 // src/components/SkillsSection.tsx (or wherever you render skillsGroups)
-import { skillsGroups, SkillItem } from "../data/content";
+// import { skillsGroups, SkillItem } from "../data/content";
 
-function SkillIcon({ item }: { item: SkillItem }) {
-  if (item.kind === "devicon") {
-    return <i className={item.className} title={item.label} aria-label={item.label} />;
-  }
+// function SkillIcon({ item }: { item: SkillItem }) {
+//   if (item.kind === "devicon") {
+//     return <i className={item.className} title={item.label} aria-label={item.label} />;
+//   }
 
-  // kind === "img"
+//   // kind === "img"
+//   return (
+//     <img
+//       className="skillIconImg"
+//       src={item.src}
+//       alt={item.label}
+//       title={item.label}
+//       loading="lazy"
+//       onError={(e) => {
+//         // graceful fallback: hide broken icons
+//         (e.currentTarget as HTMLImageElement).style.display = "none";
+//       }}
+//     />
+//   );
+// }
+
+// export default function SkillsSection() {
+//   return (
+//     <div className="skills">
+//       {skillsGroups.map((g) => (
+//         <div className="skills__group" key={g.title}>
+//           <div className="skills__title">{g.title}</div>
+//           <div className="skills__icons">
+//             {g.items.map((it) => (
+//               <SkillIcon key={it.label} item={it} />
+//             ))}
+//           </div>
+//         </div>
+//       ))}
+//     </div>
+//   );
+// }
+// src/components/Skills.tsx
+import type { SkillGroup } from "../data/content";
+
+type SkillsProps = {
+  groups: SkillGroup[];
+};
+
+export default function Skills({ groups }: SkillsProps) {
   return (
-    <img
-      className="skillIconImg"
-      src={item.src}
-      alt={item.label}
-      title={item.label}
-      loading="lazy"
-      onError={(e) => {
-        // graceful fallback: hide broken icons
-        (e.currentTarget as HTMLImageElement).style.display = "none";
-      }}
-    />
-  );
-}
-
-export default function SkillsSection() {
-  return (
-    <div className="skills">
-      {skillsGroups.map((g) => (
+    <div className="skills reveal">
+      {groups.map((g) => (
         <div className="skills__group" key={g.title}>
           <div className="skills__title">{g.title}</div>
           <div className="skills__icons">
-            {g.items.map((it) => (
-              <SkillIcon key={it.label} item={it} />
-            ))}
+            {g.items.map((item) => {
+              if (item.kind === "devicon") {
+                return (
+                  <i
+                    key={item.label}
+                    className={item.className}
+                    title={item.label}
+                  />
+                );
+              }
+              return (
+                <img
+                  key={item.label}
+                  className="skillIconImg"
+                  src={item.src}
+                  alt={item.label}
+                  title={item.label}
+                />
+              );
+            })}
           </div>
         </div>
       ))}
